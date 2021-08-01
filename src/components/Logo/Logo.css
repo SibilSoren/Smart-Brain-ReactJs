@@ -1,0 +1,13 @@
+.logo {
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border-radius: 50%;
+  background-image: url("./brain.png");
+  background-position: center;
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+.logoComponent {
+  width: 300px;
+}
