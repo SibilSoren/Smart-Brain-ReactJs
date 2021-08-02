@@ -1,4 +1,14 @@
 img {
-  width: 60%;
-  height: 80%;
+  width: 300px;
+  height: auto;
+}
+
+.bounding-box {
+  position: absolute;
+  border: 2px solid orange;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
 }

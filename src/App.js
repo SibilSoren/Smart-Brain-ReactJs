@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -13,9 +13,32 @@ const app = new Clarifai.App({
 function App() {
   const [input, setInput] = useState();
   const [imageURL, setImageURL] = useState();
+  const [box, setBox] = useState({});
+
+  const calculateFaceLocation = (data) => {
+    const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputImage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    console.log(width, height);
+    return {
+      leftcol: faceData.left_col * width,
+      rightcol: width - faceData.right_col * width,
+      bottomrow: height - faceData.bottom_row * height,
+      toprow: faceData.top_row * height,
+    };
+  };
+
+  useEffect(() => {
+    console.log("Updated");
+  });
+
+  const displayFaceBox = (boxData) => {
+    setBox(boxData);
+  };
 
   const onInputChange = (e) => {
-    setInput(e.target.value);
+    setInput(e.target.value, input);
     console.log(input);
   };
 
@@ -24,11 +47,12 @@ function App() {
       console.log(`Clicked! ${input} is passed`);
       setImageURL(input);
       console.log(imageURL);
-      app.models.predict(Clarifai.FACE_DETECT_MODEL, imageURL).then(
+      app.models.predict(Clarifai.FACE_DETECT_MODEL, input).then(
         function (response) {
           console.log(
             response.outputs[0].data.regions[0].region_info.bounding_box
           );
+          displayFaceBox(calculateFaceLocation(response));
         },
         function (err) {}
       );
@@ -44,7 +68,7 @@ function App() {
         <Rank />
         <h2 className="mt-5">{`This Magic Brain will detect faces in your pictures, Give it a try`}</h2>
         <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
-        <FaceRecognition imgUrl={imageURL} />
+        <FaceRecognition imgUrl={imageURL} boxFace={box} />
       </div>
 
       {/*
