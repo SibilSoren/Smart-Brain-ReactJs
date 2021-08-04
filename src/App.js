@@ -6,6 +6,7 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Clarifai from "clarifai";
+import Signin from "./components/SignIn/Signin";
 
 const app = new Clarifai.App({
   apiKey: "513366b794d240b590d899434f9b91f3",
@@ -14,6 +15,7 @@ function App() {
   const [input, setInput] = useState();
   const [imageURL, setImageURL] = useState();
   const [box, setBox] = useState({});
+  const [route, setRoute] = useState("signin");
 
   const calculateFaceLocation = (data) => {
     const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -42,6 +44,10 @@ function App() {
     console.log(input);
   };
 
+  const onRouteChange = () => {
+    setRoute("home");
+  };
+
   const onSubmit = () => {
     if (input) {
       console.log(`Clicked! ${input} is passed`);
@@ -62,13 +68,19 @@ function App() {
   };
   return (
     <div className="App">
-      <div className="container">
-        <Navigation />
-        <Logo />
-        <Rank />
-        <h2 className="mt-5">{`This Magic Brain will detect faces in your pictures, Give it a try`}</h2>
-        <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
-        <FaceRecognition imgUrl={imageURL} boxFace={box} />
+      <div className="container d-block justify-content-center align-items-start">
+        <Navigation route={setRoute} />
+        {route === "signin" ? (
+          <Signin onRouteChange={onRouteChange} />
+        ) : (
+          <div>
+            <Logo />
+            <Rank />
+            <h2 className="mt-5">{`This Magic Brain will detect faces in your pictures, Give it a try`}</h2>
+            <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
+            <FaceRecognition imgUrl={imageURL} boxFace={box} />
+          </div>
+        )}
       </div>
 
       {/*
