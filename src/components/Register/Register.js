@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Form, Card } from "react-bootstrap";
-import "./Signin.css";
-function Signin({ onRouteChange, onRouteChangeRegister }) {
+const Register = ({ onRouteChange }) => {
   return (
     <div className="d-flex justify-content-center align-items-start mt-5 ">
       <Card
@@ -9,7 +8,10 @@ function Signin({ onRouteChange, onRouteChangeRegister }) {
         style={{ width: "25rem", background: "none" }}
       >
         <Form>
-          <h2 className="mt-3">Sign In</h2>
+          <h2 className="mt-3">Register</h2>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Control type="name" placeholder="Enter Name" />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control type="email" placeholder="Enter email" />
             <Form.Text className="text-muted">
@@ -30,15 +32,12 @@ function Signin({ onRouteChange, onRouteChangeRegister }) {
             variant="primary"
             type="submit"
           >
-            Signin
-          </Button>
-          <p onClick={onRouteChangeRegister} className="pointer">
             Register
-          </p>
+          </Button>
         </Form>
       </Card>
     </div>
   );
-}
+};
 
-export default Signin;
+export default Register;

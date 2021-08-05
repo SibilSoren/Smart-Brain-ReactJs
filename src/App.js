@@ -7,6 +7,7 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Clarifai from "clarifai";
 import Signin from "./components/SignIn/Signin";
+import Register from "./components/Register/Register";
 
 const app = new Clarifai.App({
   apiKey: "513366b794d240b590d899434f9b91f3",
@@ -47,6 +48,9 @@ function App() {
   const onRouteChange = () => {
     setRoute("home");
   };
+  const onRouteChangeRegister = () => {
+    setRoute("register");
+  };
 
   const onSubmit = () => {
     if (input) {
@@ -71,7 +75,12 @@ function App() {
       <div className="container d-block justify-content-center align-items-start">
         <Navigation route={setRoute} />
         {route === "signin" ? (
-          <Signin onRouteChange={onRouteChange} />
+          <Signin
+            onRouteChange={onRouteChange}
+            onRouteChangeRegister={onRouteChangeRegister}
+          />
+        ) : route === "register" ? (
+          <Register onRouteChange={onRouteChange} />
         ) : (
           <div>
             <Logo />
@@ -84,7 +93,13 @@ function App() {
       </div>
 
       {/*
-      
+      <div>
+            <Logo />
+            <Rank />
+            <h2 className="mt-5">{`This Magic Brain will detect faces in your pictures, Give it a try`}</h2>
+            <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
+            <FaceRecognition imgUrl={imageURL} boxFace={box} />
+          </div>
       
       */}
     </div>

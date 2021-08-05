@@ -1,6 +1,6 @@
 import React from "react";
 import "./Navigation.css";
-const Navigation = ({ route }) => {
+const Navigation = ({ route, isSignedIn }) => {
   return (
     <nav className="container d-flex justify-content-end pt-3">
       <p
